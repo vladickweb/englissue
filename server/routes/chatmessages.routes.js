@@ -17,4 +17,16 @@ router.post('/:id', (req, res) => {
 		.catch(err => res.status(500).json({ Code: 500, err }))
 })
 
+router.get('/:id', (req, res) => {
+	const { id } = req.params
+	console.log(id)
+
+	ChatRoom.findById(id)
+		.then(room => {
+			const numberOfMessagesFromDB = room.messages.length
+			return res.status(200).json({ numberOfMessagesFromDB })
+		})
+		.catch(err => res.status(500).json({ Code: 500, Message: 'error', err }))
+})
+
 module.exports = router

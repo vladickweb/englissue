@@ -28,7 +28,6 @@ export class App extends Component {
 			<div>
 				<Navigation loggedUser={this.state.loggedUser} storeUser={this.storeUser} />
 				<Routes storeUser={this.storeUser} loggedUser={this.state.loggedUser} />
-				{/* <Videochat/> */}
 			</div>
 		)
 	}

@@ -19,7 +19,7 @@ const userSchema = new Schema(
 		},
 
 		password: {
-			type: String,
+			type: String
 			// required: true
 		},
 
@@ -30,10 +30,12 @@ const userSchema = new Schema(
 			required: true
 		},
 
-		// teacherInfo: {
-		// 	type: Schema.Types.ObjectId,
-		// 	ref: 'Teacher'
-		// },
+		MessagesGroups: [
+			{
+				type: Schema.Types.ObjectId,
+				ref: 'MessagesGroup'
+			}
+		],
 
 		image: {
 			type: String,

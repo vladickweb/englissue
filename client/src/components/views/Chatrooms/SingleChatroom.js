@@ -1,29 +1,45 @@
 import React, { Component } from 'react'
+import ChatMessageService from '../../services/ChatMessageService'
 import ChatroomService from '../../services/ChatroomsService'
 
 export default class SingleChatroom extends Component {
 	constructor(props) {
+
+
+		
 		super(props)
+
+		this.interval = ""
+		
 		this.state = {
+			numberOfMessages: '0',
 			users: null,
 			messages: [
 				{
 					email: '',
 					body: ''
 				}
-			]
+			],
+			body: ''
 		}
 		this.chatroomService = new ChatroomService()
+		this.chatMessageService = new ChatMessageService()
 	}
 
 	componentDidMount() {
 		this.refreshMessages()
+		this.handleCheckMessages()
+	}
+
+	componentWillUnmount() {
+		clearInterval(this.interval)
 	}
 
 	refreshMessages = () => {
 		this.chatroomService
 			.getOneChatroom(this.props.match.params.id)
 			.then(res => {
+				console.log(res.data.messages, 'es aquí')
 				const arrTemporal = res.data.messages.map(message => {
 					const { email } = message.name
 					const { body } = message
@@ -40,9 +56,9 @@ export default class SingleChatroom extends Component {
 	}
 
 	displayMessages = () => {
-		this.state.messages.map(elm => {
+		return this.state.messages.map((elm, idx) => {
 			return (
-				<div>
+				<div key={idx}>
 					<h1>{elm.email}</h1>
 					<h2>{elm.body}</h2>
 				</div>
@@ -50,13 +66,62 @@ export default class SingleChatroom extends Component {
 		})
 	}
 
-	render() {
-		console.log(this.state)
-		return this.state.messages ? <div>{this.displayMessages()}</div> : <div>loading</div>
+	handleChange = e => {
+		const { value, name } = e.target
+
+		this.setState({
+			...this.state,
+			[name]: value
+		})
 	}
-	// render(){
-	//     return (
-	//         <div>hola</div>
-	//     )
-	// }
+
+	handleSubmit = e => {
+		e.preventDefault()
+		console.log('he entrado')
+		const body = this.state.body
+		const id = this.props.match.params.id
+		this.chatMessageService
+			.createMessage({ body, id })
+			.then(() => {
+				this.refreshMessages()
+				this.setState({
+					...this.state,
+					body: ''
+				})
+			})
+			.catch(err => console.log(err))
+	}
+
+	handleCheckMessages = () => {
+		this.interval = setInterval(() => {
+			const {id} = this.props.match.params
+
+			this.chatMessageService
+				.checkNewMessages(id)
+				.then(numberOfMessagesFromDB => {
+			
+					this.state.numberOfMessages !== numberOfMessagesFromDB.data.numberOfMessagesFromDB &&
+						this.setState({
+							...this.state,
+							numberOfMessages: numberOfMessagesFromDB.data.numberOfMessagesFromDB
+						}, this.refreshMessages())
+				})
+				.catch(err => console.log(err))
+		}, 1000)
+	}
+
+	render() {
+		console.log(this.state.messages, 'hola')
+		return this.state.messages ? (
+			<div>
+				{this.displayMessages()}
+				<form onSubmit={e => this.handleSubmit(e)}>
+					<input onChange={this.handleChange} type='text' name='body' />
+					<button type='submit'>enviar</button>
+				</form>
+			</div>
+		) : (
+			<div>loading</div>
+		)
+	}
 }

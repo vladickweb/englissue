@@ -7,6 +7,13 @@ const MessagesGroup = new Schema(
 				type: Schema.Types.ObjectId,
 				ref: 'User'
 			}
+		],
+		
+		messages: [
+			{
+				type: Schema.Types.ObjectId,
+				ref: 'Messages'
+			}
 		]
 	},
 	{ timestamps: true }

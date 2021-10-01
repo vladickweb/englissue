@@ -28,12 +28,12 @@ export default function Navigation(props) {
 			<div className='collapse navbar-collapse' id='navbarSupportedContent'>
 				<ul className='navbar-nav mr-auto'>
 					<li className='nav-item active'>
-						<Link to='iniciar-sesion' className='nav-link' href='#'>
+						<Link to='/iniciar-sesion' className='nav-link' href='#'>
 							Iniciar Sesión
 						</Link>
 					</li>
 					<li className='nav-item'>
-						<Link to='registro' className='nav-link' href='#'>
+						<Link to='/registro' className='nav-link' href='#'>
 							Registrarse
 						</Link>
 					</li>
@@ -42,12 +42,22 @@ export default function Navigation(props) {
 							Logout
 						</span>
 					</li>
-						<li className='nav-item'>
-						<Link to='salas-chat' className='nav-link' href='#'>
+					<li className='nav-item'>
+						<Link to='/salas-chat' className='nav-link'>
 							Salas de chat
 						</Link>
 					</li>
-				
+
+					<li className='nav-item'>
+						<Link to='/mis-mensajes' className='nav-link' href='#'>
+							Mis mensajes
+						</Link>
+					</li>
+					<li className='nav-item'>
+						<Link to='/videochat' className='nav-link' href='#'>
+							Videochat
+						</Link>
+					</li>
 				</ul>
 			</div>
 		</nav>

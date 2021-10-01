@@ -1,11 +1,13 @@
 import React from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import Chatrooms from '../views/Chatrooms/Chatrooms'
 import SingleChatroom from '../views/Chatrooms/SingleChatroom'
 import CompleteYourProfile from '../views/CompleteYourProfile/CompleteYourProfile'
 import Home from '../views/Home/Home'
 import Login from '../views/Login/Login'
+import MessagesGroup from '../views/Messages/MessagesGroup'
 import Signup from '../views/Signup/Signup'
+import Videochat from '../views/Videochat/Videochat'
 
 const Routes = ({ storeUser, loggedUser }) => {
 	return (
@@ -19,7 +21,14 @@ const Routes = ({ storeUser, loggedUser }) => {
 				render={props => <CompleteYourProfile storeUser={storeUser} {...props} />}
 			/>
 			<Route exact path='/salas-chat' render={props => <Chatrooms storeUser={storeUser} {...props} />} />
-			<Route path="/salas-chat/:id" render={(props) => <SingleChatroom {...props} />} />
+			<Route path='/salas-chat/:id' render={props => <SingleChatroom {...props} />} />
+			<Route
+				exact
+				path='/mis-mensajes'
+				render={() =>
+					loggedUser ? <MessagesGroup loggedUser={loggedUser} /> : <Redirect to='/iniciar-sesion' />}
+			/>
+			<Route exact path='/videochat' render={() => <Videochat />} />
 		</Switch>
 	)
 }
