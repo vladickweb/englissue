@@ -3,12 +3,12 @@ import axios from 'axios'
 class CheckoutService {
 	constructor() {
 		this.instance = axios.create({
-			baseURL: `${process.env.REACT_APP_API_URL}/checkout/`,
+			baseURL: `${process.env.REACT_APP_BASE_URL_API_URL}/checkout/`,
 			withCredentials: true
 		})
 	}
 
-	createCheckout = (id, amount) => this.instance.post('/', {id, amount})
+	createCheckout = (id, amount) => this.instance.post('/', { id, amount })
 }
 
 export default CheckoutService

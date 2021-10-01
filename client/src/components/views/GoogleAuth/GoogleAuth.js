@@ -10,7 +10,6 @@ export class GoogleAuth extends Component {
 	}
 
 	responseGoogle = res => {
-
 		this.authService
 			.google(res.profileObj)
 			.then(res => {
@@ -24,7 +23,7 @@ export class GoogleAuth extends Component {
 		return (
 			<div>
 				<GoogleLogin
-					clientId={process.env.REACT_APP_GOOGLE_LOGIN}
+					clientId={process.env.REACT_APP_BASE_URL_GOOGLE_LOGIN}
 					buttonText='Login'
 					onSuccess={this.responseGoogle}
 					onFailure={this.responseGoogle}
