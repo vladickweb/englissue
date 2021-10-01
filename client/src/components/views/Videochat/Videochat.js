@@ -9,7 +9,7 @@ import Peer from 'simple-peer'
 import io from 'socket.io-client'
 import './Videochat.css'
 
-const socket = io.connect('http://localhost:3001')
+const socket = io.connect(process.env.REACT_APP_BASE_URL_SERVER)
 function Videochat() {
 	const [ me, setMe ] = useState('')
 	const [ stream, setStream ] = useState()
@@ -31,9 +31,8 @@ function Videochat() {
 		})
 
 		socket.on('me', id => {
+			console.log(id)
 			setMe(id)
-			
-			
 		})
 
 		socket.on('callUser', data => {

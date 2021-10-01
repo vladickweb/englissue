@@ -13,22 +13,12 @@ export const Debounce = ({ a }) => {
 		setValue(e.target.value)
 	}
 
-	// const renderList = item => {
-
-	// }
-
 	return (
 		<div>
 			<div className='form-group'>
 				<label>
 					<p>Ingresa tu ciudad</p>
-					<input
-						type='text'
-						className='form-control'
-						value={value}
-						onChange={e => handleChange(e)}
-						// loading={isPlacePredictionsLoading}
-					/>
+					<input type='text' className='form-control' value={value} onChange={e => handleChange(e)} />
 				</label>
 			</div>
 			<div>
@@ -44,19 +34,6 @@ export const Debounce = ({ a }) => {
 					</ul>
 				)}
 			</div>
-
-			{/* <div>
-				{!isPlacePredictionsLoading && (
-					<List
-						dataSource={placePredictions}
-						renderItem={item => (
-							<List.Item onClick={() => setValue(item.description)}>
-								<List.Item.Meta title={item.description} />
-							</List.Item>
-						)}
-					/>
-				)}
-			</div>  */}
 		</div>
 	)
 }
