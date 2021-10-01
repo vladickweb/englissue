@@ -38,7 +38,7 @@ export default class GeocodeGoogle extends Component {
 		Geocode.setRegion('es')
 		Geocode.setLocationType('ROOFTOP')
 		Geocode.enableDebug()
-		
+
 		Geocode.fromLatLng(lat, long).then(
 			response => {
 				let city, country
@@ -51,13 +51,13 @@ export default class GeocodeGoogle extends Component {
 							case 'country':
 								country = response.results[0].address_components[i].long_name
 								break
-              default: 
-                break
+							default:
+								break
 						}
 					}
 				}
 				console.log(city, country, this.props)
-        this.props.handleChangeDirection(city, country)
+				this.props.handleChangeDirection(city, country)
 			},
 			error => {
 				console.error(error)

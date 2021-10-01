@@ -1,16 +1,16 @@
-import axios from 'axios';
+import axios from 'axios'
 
 class ChatroomService {
-  constructor(){
-    this.instance = axios.create({
-      baseURL: `${process.env.REACT_APP_BASE_URL_API_URL}/chatrooms`,
-      withCredentials: true
-    })
-  }
+	constructor() {
+		this.instance = axios.create({
+			baseURL: `${process.env.REACT_APP_BASE_URL_API_URL}/chatrooms`,
+			withCredentials: true
+		})
+	}
 
-  getChatrooms = () => this.instance.get("/");
-  getOneChatroom = (id) => this.instance.get(`/${id}`);
-//   createCoaster = (coaster) => this.instance.post("/", coaster);
+	getChatrooms = () => this.instance.get('/')
+	getOneChatroom = id => this.instance.get(`/${id}`)
+	//   createCoaster = (coaster) => this.instance.post("/", coaster);
 }
 
-export default ChatroomService;
+export default ChatroomService

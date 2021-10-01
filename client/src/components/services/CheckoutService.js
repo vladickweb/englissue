@@ -8,7 +8,7 @@ class CheckoutService {
 		})
 	}
 
-	createCheckout = (id, amount) => this.instance.post('/', {id, amount})
+	createCheckout = (id, amount) => this.instance.post('/', { id, amount })
 }
 
 export default CheckoutService

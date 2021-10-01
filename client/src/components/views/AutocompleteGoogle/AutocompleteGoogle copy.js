@@ -37,9 +37,7 @@ export const Debounce = ({ a }) => {
 						datasource={placePredictions}
 						renderItem={item => (
 							//  TODO:
-							<li onClick={() => console.log(item, 'soy item')}> 
-								{item.description}
-							</li>
+							<li onClick={() => console.log(item, 'soy item')}>{item.description}</li>
 						)}
 					>
 						<li />

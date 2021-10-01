@@ -11,7 +11,7 @@ export default function AutocompleteGoogle(props) {
 			const country = place.address_components[3].long_name
 			props.handleChangeDirection(city, country)
 		}
-	})	
+	})
 
 	return (
 		<div>

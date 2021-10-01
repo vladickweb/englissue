@@ -4,6 +4,7 @@ const express = require('express')
 const session = require('express-session')
 const http = require('http')
 const app = express()
+
 const server = http.createServer(app)
 const socket = require('socket.io')
 
@@ -34,11 +35,9 @@ io.on('connection', socket => {
 	})
 })
 
-server.listen(5000, () => console.log('server is running on port 5000'))
-
 const allRoutes = require('./routes')
+
 app.use('/api', allRoutes)
-
-
 app.use((req, res) => res.sendFile(__dirname + '/public/index.html'))
-module.exports = app
+
+module.exports = server

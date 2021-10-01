@@ -10,7 +10,6 @@ export class GoogleAuth extends Component {
 	}
 
 	responseGoogle = res => {
-
 		this.authService
 			.google(res.profileObj)
 			.then(res => {

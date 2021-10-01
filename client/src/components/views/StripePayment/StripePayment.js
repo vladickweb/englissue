@@ -4,12 +4,9 @@ import { loadStripe } from '@stripe/stripe-js'
 import CheckoutService from '../../services/CheckoutService'
 
 export default function StripePayment() {
-
 	const createCheckout = new CheckoutService()
-	
-	const stripePromise = loadStripe(
-		process.env.REACT_APP_BASE_URL_API_STRIPE
-	)
+
+	const stripePromise = loadStripe(process.env.REACT_APP_BASE_URL_API_STRIPE)
 
 	const CheckoutForm = () => {
 		const stripe = useStripe()
@@ -25,9 +22,9 @@ export default function StripePayment() {
 
 			if (!error) {
 				const { id } = paymentMethod
-				const { data } = await createCheckout.createCheckout(id, 5000 )
+				const { data } = await createCheckout.createCheckout(id, 5000)
 
-                console.log(data)
+				console.log(data)
 			} else {
 				console.log(error)
 			}
