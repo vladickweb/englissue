@@ -14,7 +14,7 @@ require('./config/cors.config')(app)
 
 const io = require('socket.io')(server, {
 	cors: {
-		origin: '*',
+		origin: process.env.ORIGIN || process.env.ORIGIN_ONLINE,
 		methods: [ 'GET', 'POST' ]
 	}
 })
@@ -38,7 +38,6 @@ io.on('connection', socket => {
 const allRoutes = require('./routes')
 
 app.use('/api', allRoutes)
-
 app.use((req, res) => res.sendFile(__dirname + '/public/index.html'))
 
 module.exports = server
