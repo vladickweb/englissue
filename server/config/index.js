@@ -2,7 +2,7 @@ const express = require('express')
 const logger = require('morgan')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
-
+const path = require('path')
 module.exports = app => {
 	app.set('trust proxy', 1)
 
