@@ -14,7 +14,7 @@ require('./config/cors.config')(app)
 
 const io = require('socket.io')(server, {
 	cors: {
-		origin: process.env.ORIGIN || process.env.ORIGIN_ONLINE,
+		origin: process.env.ORIGIN_ONLINE || process.env.ORIGIN,
 		methods: [ 'GET', 'POST' ]
 	}
 })
