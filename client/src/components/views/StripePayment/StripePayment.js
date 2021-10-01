@@ -8,7 +8,7 @@ export default function StripePayment() {
 	const createCheckout = new CheckoutService()
 	
 	const stripePromise = loadStripe(
-		process.env.REACT_APP_API_STRIPE
+		process.env.REACT_APP_BASE_URL_API_STRIPE
 	)
 
 	const CheckoutForm = () => {

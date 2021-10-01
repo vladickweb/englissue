@@ -5,7 +5,7 @@ import './AutocompleteGoogle.css'
 
 export default function AutocompleteGoogle(props) {
 	const { ref: bootstrapRef } = usePlacesWidget({
-		apiKey: process.env.REACT_APP_GOOGLE,
+		apiKey: process.env.REACT_APP_BASE_URL_GOOGLE,
 		onPlaceSelected: place => {
 			const city = place.address_components[0].long_name
 			const country = place.address_components[3].long_name

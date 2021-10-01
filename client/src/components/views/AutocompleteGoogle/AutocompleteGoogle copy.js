@@ -4,7 +4,7 @@ import useGoogle from 'react-google-autocomplete/lib/usePlacesAutocompleteServic
 
 export const Debounce = ({ a }) => {
 	const { placePredictions, getPlacePredictions, isPlacePredictionsLoading } = useGoogle({
-		apiKey: process.env.REACT_APP_GOOGLE
+		apiKey: process.env.REACT_APP_BASE_URL_GOOGLE
 	})
 	const [ value, setValue ] = useState('')
 

@@ -3,7 +3,7 @@ import axios from 'axios';
 class ChatMessageService {
   constructor(){
     this.instance = axios.create({
-      baseURL: `${process.env.REACT_APP_API_URL}/chatmessages`,
+      baseURL: `${process.env.REACT_APP_BASE_URL_API_URL}/chatmessages`,
       withCredentials: true
     })
   }

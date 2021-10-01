@@ -33,7 +33,7 @@ export default class GeocodeGoogle extends Component {
 	}
 
 	geolocation(lat, long) {
-		Geocode.setApiKey(process.env.REACT_APP_GOOGLE)
+		Geocode.setApiKey(process.env.REACT_APP_BASE_URL_GOOGLE)
 		Geocode.setLanguage('es')
 		Geocode.setRegion('es')
 		Geocode.setLocationType('ROOFTOP')
