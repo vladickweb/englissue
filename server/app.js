@@ -6,22 +6,28 @@ const http = require('http')
 const app = express()
 
 const server = http.createServer(app)
-const socket = require('socket.io')
+
 
 require('./config')(app)
 require('./config/session.config')(app)
 require('./config/cors.config')(app)
+const cors = require('cors')
+const whitelist = [process.env.ORIGIN, process.env.ORIGIN_ONLINE];
+const corsOptions = {
+    origin: (origin, cb) => {
+        const isOriginWhiteListed = whitelist.includes(origin);
+        cb(null, isOriginWhiteListed);
+    },
+ 
+    credentials: true
+}
+app.use(cors(corsOptions));
 
-const io = require('socket.io')(server, {
-	cors: {
-		origin: process.env.ORIGIN_ONLINE || process.env.ORIGIN,
-		methods: [ 'GET', 'POST' ]
-	}
-})
+const io = require('socket.io')(server, {cors: corsOptions})
 
 io.on('connection', socket => {
 	socket.emit('me', socket.id)
-
+	
 	socket.on('disconnect', () => {
 		socket.broadcast.emit('callEnded')
 	})

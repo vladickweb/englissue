@@ -25,17 +25,17 @@ const userSchema = new Schema(
 
 		rol: {
 			type: String,
-			enum: [ 'teacher', 'commonUser', 'unknown' ],
+			enum: [ 'teacher', 'student', 'unknown' ],
 			default: 'unknown',
 			required: true
 		},
 
-		MessagesGroups: [
-			{
-				type: Schema.Types.ObjectId,
-				ref: 'MessagesGroup'
-			}
-		],
+		// MessagesGroups: [
+		// 	{
+		// 		type: Schema.Types.ObjectId,
+		// 		ref: 'MessagesGroup'
+		// 	}
+		// ],
 
 		image: {
 			type: String,
@@ -46,6 +46,15 @@ const userSchema = new Schema(
 		balance: {
 			type: Number,
 			default: 0.0
+		},
+
+		price: {
+			type: Number,
+			default: 0,
+		},
+
+		description: {
+			type: String, 
 		},
 
 		direction: {
@@ -64,7 +73,7 @@ const userSchema = new Schema(
 			type: String
 		},
 
-		clients: [
+		myClasses: [
 			{
 				type: Schema.Types.ObjectId,
 				ref: 'User'

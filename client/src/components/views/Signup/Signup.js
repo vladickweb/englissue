@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Container, Form, Button } from 'react-bootstrap'
 import AuthService from '../../services/AuthService'
-
+import GoogleAuth from '../GoogleAuth/GoogleAuth'
 class Signup extends Component {
 	constructor(props) {
 		super(props)
@@ -23,7 +23,9 @@ class Signup extends Component {
 		this.authService
 			.signup(email, pwd)
 			.then(res => {
+			
 				this.props.storeUser(res.data)
+				console.log(res, 'ssssssssssssssssssssssss')
 				res.data.rol === 'unknown' ? this.props.history.push('/completar-perfil') : this.props.history.push('/')
 			})
 			.catch(err => console.log(err))
@@ -59,6 +61,7 @@ class Signup extends Component {
 						Submit
 					</Button>
 				</Form>
+				<GoogleAuth storeUser={this.props.storeUser} {...this.props}/>
 			</Container>
 		)
 	}

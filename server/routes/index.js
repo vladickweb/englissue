@@ -6,7 +6,7 @@ const checkoutRoutes = require('./checkout.routes')
 const uploadsRoutes = require('./uploads.routes')
 const chatRooms = require('./chatRooms.routes')
 const chatMessages = require('./chatmessages.routes')
-// const { isValidObjectId } = require('mongoose')
+const messagesGroups = require('./messagesGroups')
 
 router.post('/', (req, res) => {
 	res.json('All good in here')
@@ -20,6 +20,7 @@ router.use('/checkout', checkoutRoutes)
 router.use('/uploads', uploadsRoutes)
 router.use('/chatrooms', chatRooms)
 router.use('/chatmessages', chatMessages)
+router.use('/messages', messagesGroups)
 
 
 module.exports = router

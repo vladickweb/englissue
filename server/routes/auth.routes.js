@@ -18,9 +18,9 @@ router.post('/signup', (req, res) => {
 			const hashPass = bcrypt.hashSync(pwd, salt)
 
 			User.create({ password: hashPass, email })
-				.then(() => {
+				.then((user) => {
 					req.session.currentUser = user
-					res.json({ code: 200, message: 'Usuario creado' })
+					res.json(req.session.currentUser)
 				})
 				.catch(err =>
 					res.status(500).json({ code: 500, message: 'DB error while creating user', err: err.message })

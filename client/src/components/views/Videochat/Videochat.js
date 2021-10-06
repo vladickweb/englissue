@@ -9,10 +9,9 @@ import Peer from 'simple-peer'
 import io from 'socket.io-client'
 import './Videochat.css'
 
-
-const socket = io.connect(process.env.REACT_APP_BASE_URL)
-
 function Videochat() {
+	const socket = io.connect(process.env.REACT_APP_BASE_URL)
+	
 	const [ me, setMe ] = useState('')
 	const [ stream, setStream ] = useState()
 	const [ receivingCall, setReceivingCall ] = useState(false)
@@ -116,6 +115,7 @@ function Videochat() {
 						onChange={e => setName(e.target.value)}
 						style={{ marginBottom: '20px' }}
 					/>
+
 					<CopyToClipboard text={me} style={{ marginBottom: '2rem' }}>
 						<Button variant='contained' color='primary' startIcon={<AssignmentIcon fontSize='large' />}>
 							Copy ID

@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose')
 
-const MessagesGroup = new Schema(
+const messagesGroupSchema = new Schema(
 	{
 		users: [
 			{
@@ -12,13 +12,13 @@ const MessagesGroup = new Schema(
 		messages: [
 			{
 				type: Schema.Types.ObjectId,
-				ref: 'Messages'
+				ref: 'Message'
 			}
 		]
 	},
 	{ timestamps: true }
 )
 
-const ChatMessage = model('ChatMessage', messageSchema)
+const MessagesGroup = model('MessagesGroup', messagesGroupSchema)
 
-module.exports = ChatMessage
+module.exports = MessagesGroup

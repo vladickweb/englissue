@@ -10,8 +10,7 @@ const chatMessageSchema = new Schema(
 		body: {
 			type: String,
 			required: true
-		},
-		
+		}
 	},
 	{ timestamps: true }
 )

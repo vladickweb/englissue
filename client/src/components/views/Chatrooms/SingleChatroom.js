@@ -4,13 +4,10 @@ import ChatroomService from '../../services/ChatroomsService'
 
 export default class SingleChatroom extends Component {
 	constructor(props) {
-
-
-		
 		super(props)
 
-		this.interval = ""
-		
+		this.interval = ''
+
 		this.state = {
 			numberOfMessages: '0',
 			users: null,
@@ -36,10 +33,12 @@ export default class SingleChatroom extends Component {
 	}
 
 	refreshMessages = () => {
+		const { id } = this.props.match.params
+		console.log(id, 'wooooooooooooooooooooooooooow')
+
 		this.chatroomService
-			.getOneChatroom(this.props.match.params.id)
+			.getOneChatroom(id)
 			.then(res => {
-				console.log(res.data.messages, 'es aquí')
 				const arrTemporal = res.data.messages.map(message => {
 					const { email } = message.name
 					const { body } = message
@@ -79,7 +78,8 @@ export default class SingleChatroom extends Component {
 		e.preventDefault()
 		console.log('he entrado')
 		const body = this.state.body
-		const id = this.props.match.params.id
+		const { id } = this.props.match.params
+
 		this.chatMessageService
 			.createMessage({ body, id })
 			.then(() => {
@@ -94,24 +94,26 @@ export default class SingleChatroom extends Component {
 
 	handleCheckMessages = () => {
 		this.interval = setInterval(() => {
-			const {id} = this.props.match.params
+			const { id } = this.props.match.params
 
 			this.chatMessageService
 				.checkNewMessages(id)
 				.then(numberOfMessagesFromDB => {
-			
+					console.log(numberOfMessagesFromDB)
 					this.state.numberOfMessages !== numberOfMessagesFromDB.data.numberOfMessagesFromDB &&
-						this.setState({
-							...this.state,
-							numberOfMessages: numberOfMessagesFromDB.data.numberOfMessagesFromDB
-						}, this.refreshMessages())
+						this.setState(
+							{
+								...this.state,
+								numberOfMessages: numberOfMessagesFromDB.data.numberOfMessagesFromDB
+							},
+							this.refreshMessages()
+						)
 				})
 				.catch(err => console.log(err))
 		}, 1000)
 	}
 
 	render() {
-		console.log(this.state.messages, 'hola')
 		return this.state.messages ? (
 			<div>
 				{this.displayMessages()}

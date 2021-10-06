@@ -13,6 +13,8 @@ export default class CompleteYourProfile extends Component {
 		rol: '',
 		city: '',
 		country: '',
+		price: 0,
+		description: '',
 		isLoading: false,
 		showManualDirection: false
 	}
@@ -77,7 +79,9 @@ export default class CompleteYourProfile extends Component {
 					city: this.state.city,
 					country: this.state.country,
 					image: this.state.image,
-					iban: this.state.iban
+					iban: this.state.iban,
+					price: this.state.price,
+					description: this.state.description
 				})
 				.then(() => {
 					this.setState({
@@ -87,6 +91,8 @@ export default class CompleteYourProfile extends Component {
 						rol: '',
 						city: '',
 						country: '',
+						price: 0,
+						description: '',
 						isLoading: false,
 						showManualDirection: false
 					})
@@ -212,6 +218,28 @@ export default class CompleteYourProfile extends Component {
 												/>
 											</label>
 										</div>
+
+										<div className='form-group'>
+											<label>
+												<p>Precio por sesión</p>
+												<input
+													onChange={e => this.handleChange(e)}
+													type='number'
+													className='form-control'
+													id='price'
+													name='price'
+													required
+												/>
+											</label>
+										</div>
+
+										<div className='form-group'>
+											<label>
+											<p>Descripción</p>
+											<textarea name="description" className='form-control' id='description' rows='3' onChange={e => this.handleChange(e)} />
+											</label>
+										</div>
+
 										{this.state.showManualDirection && (
 											<AutocompleteGoogle handleChangeDirection={this.handleChangeDirection} />
 										)}

@@ -3,13 +3,15 @@ import axios from 'axios'
 class MessageService {
 	constructor() {
 		this.instance = axios.create({
-			baseURL: `${process.env.REACT_APP_BASE_URL}/api/chatmessages`,
+			baseURL: `${process.env.REACT_APP_BASE_URL}/api/messages`,
 			withCredentials: true
 		})
 	}
 
-	createMessage = data => this.instance.post(`/${data.id}`, data)
-	checkNewMessages = id => this.instance.get(`/${id}`)
+	createGroup = data => this.instance.post('/create', {data})
+	createMessage = data => this.instance.post('/message', {data})
+	getMyGroups = () => this.instance.get('/get-my-groups')
+	// checkNewMessages = id => this.instance.get(`/${id}`)
 }
 
 export default MessageService
