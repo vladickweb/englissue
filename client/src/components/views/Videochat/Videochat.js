@@ -9,9 +9,9 @@ import Peer from 'simple-peer'
 import io from 'socket.io-client'
 import './Videochat.css'
 
+	
 function Videochat() {
 	const socket = io.connect(process.env.REACT_APP_BASE_URL)
-	
 	const [ me, setMe ] = useState('')
 	const [ stream, setStream ] = useState()
 	const [ receivingCall, setReceivingCall ] = useState(false)
