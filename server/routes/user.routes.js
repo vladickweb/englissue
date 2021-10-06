@@ -86,7 +86,7 @@ router.post('/my-groups', (req, res) => {
 	const { id } = req.body.data
 	const {_id} = req.session.currentUser
 
-	
+
 	MessagesGroup.find({ users: id }, { users: _id })
 		.populate({path: 'messages', populate: {path: 'name'}})
 		.then(group => res.status(200).json({ group }))
@@ -95,8 +95,9 @@ router.post('/my-groups', (req, res) => {
 
 router.get('/people', (req, res) => {
 	const { city } = req.session.currentUser.direction
-
-	User.find({'direction.city': city, rol: 'student'})
+	const id = req.session.currentUser._id
+	
+	User.find({'direction.city': city, rol: 'student', _id: {$ne: id}})
 		.then(users => res.status(200).json({users}))
 		.catch(err => res.status(500).json({err}))
 })

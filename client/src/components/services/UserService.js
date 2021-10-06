@@ -12,7 +12,7 @@ class UserService {
 	getSingleUser = id => this.instance.get(`/${id}`)
 	updateUser = data => this.instance.put('/update', { data })
 	getMyClasses = () => this.instance.get(`/my-classes`)
-	getMyGroups = (data) => this.instance.post(`/my-groups/`, {data})
+	getMyGroups = (data) => this.instance.post(`/my-groups`, {data})
 	getPeople = () => this.instance.get(`/people`)
 }
 

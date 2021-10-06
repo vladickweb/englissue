@@ -30,6 +30,8 @@ export default function Navigation(props) {
 
 			<div className='collapse navbar-collapse' id='navbarSupportedContent'>
 				<ul className='navbar-nav'>
+				{!props.loggedUser ?
+					<div className="d-flex">
 					<li className='nav-item active'>
 						<Link to='/iniciar-sesion' className='nav-link' href='#'>
 							Iniciar Sesión
@@ -40,11 +42,14 @@ export default function Navigation(props) {
 							Registrarse
 						</Link>
 					</li>
+					</div>
+					: 
 					<li className='nav-item'>
 						<span className='nav-link' onClick={logout}>
 							Logout
 						</span>
 					</li>
+				}
 					<li className='nav-item'>
 						<Link to='/salas-chat' className='nav-link'>
 							Salas de chat
@@ -78,6 +83,7 @@ export default function Navigation(props) {
 				</ul>
 			</div>
 			<div className=' ml-auto'>
+				{props.loggedUser &&
 				<ul className='navbar-nav ml-auto'>
 					<li className='nav-item'>
 					
@@ -87,6 +93,7 @@ export default function Navigation(props) {
 					
 					</li>
 				</ul>
+				}
 			</div>
 		</nav>
 	)

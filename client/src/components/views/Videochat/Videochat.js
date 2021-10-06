@@ -32,7 +32,6 @@ function Videochat() {
 		})
 
 		socket.on('me', id => {
-			console.log(id)
 			setMe(id)
 		})
 
@@ -50,7 +49,9 @@ function Videochat() {
 			trickle: false,
 			stream: stream
 		})
+
 		peer.on('signal', data => {
+			console.log('signal')
 			socket.emit('callUser', {
 				userToCall: id,
 				signalData: data,
@@ -58,10 +59,13 @@ function Videochat() {
 				name: name
 			})
 		})
+
 		peer.on('stream', stream => {
 			userVideo.current.srcObject = stream
 		})
+
 		socket.on('callAccepted', signal => {
+			console.log('accepted')
 			setCallAccepted(true)
 			peer.signal(signal)
 		})
@@ -76,9 +80,11 @@ function Videochat() {
 			trickle: false,
 			stream: stream
 		})
+
 		peer.on('signal', data => {
 			socket.emit('answerCall', { signal: data, to: caller })
 		})
+
 		peer.on('stream', stream => {
 			userVideo.current.srcObject = stream
 		})
@@ -90,6 +96,7 @@ function Videochat() {
 	const leaveCall = () => {
 		setCallEnded(true)
 		connectionRef.current.destroy()
+		console.log('fin')
 	}
 
 	return (
@@ -139,7 +146,7 @@ function Videochat() {
 								<PhoneIcon fontSize='large' />
 							</IconButton>
 						)}
-						{idToCall}
+						
 					</div>
 				</div>
 				<div>

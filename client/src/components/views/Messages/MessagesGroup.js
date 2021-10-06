@@ -35,10 +35,12 @@ class MessagesGroup extends Component {
 			const ids = []
 			ids.push(group.users[0]._id)
 			ids.push(group.users[1]._id)
+
+			console.log(ids)
 			const myId = this.props.loggedUser._id
 
 			const result = ids.filter(id => id !== myId)
-
+			console.log(result);
 			return (
 				<div>
 					<Link to={`/mis-mensajes/${result[0]}`}>

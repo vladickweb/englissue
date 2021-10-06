@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import UserService from '../../services/UserService'
 import MessagesService from '../../services/MessagesService'
+import "bootswatch/dist/quartz/bootstrap.min.css";
 
 export default class SingleMessage extends Component {
 	constructor(props) {
@@ -23,10 +24,12 @@ export default class SingleMessage extends Component {
 	checkIfExistsGroup() {
 		const id = this.props.match.params.id
 		const _id = this.props.loggedUser?._id
+		
 
 		this.userService
 			.getMyGroups({ id, _id })
 			.then(e => {
+				console.log(e, 'data')
 				e.data.group.length === 0
 					? this.createMessageGroup()
 					: this.setState({
@@ -36,6 +39,7 @@ export default class SingleMessage extends Component {
 						})
 			})
 			.catch(err => {
+				console.log('holaaaaaaaaaaaaaaaaaaaaa')
 				console.log(err)
 			})
 	}
@@ -44,11 +48,11 @@ export default class SingleMessage extends Component {
 		const { id } = this.props.match.params
 		const { _id } = this.props.loggedUser
 
-		console.log(id, _id)
+	
 		this.messagesService
 			.createGroup({ id, _id })
 			.then(() => {
-				console.log('grupo creado')
+			
 				this.checkIfExistsGroup()
 			})
 			.catch(err => console.log(err))
@@ -56,7 +60,7 @@ export default class SingleMessage extends Component {
 
 	displayMessages = () => {
 		return this.state.messages.map(message => {
-			console.log(message)
+			
 			return (
 				<div key={message._id} className='row'>
 					<h1>{message.name.name}</h1>
