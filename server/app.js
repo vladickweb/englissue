@@ -4,9 +4,7 @@ const express = require('express')
 const session = require('express-session')
 const http = require('http')
 const app = express()
-
 const server = http.createServer(app)
-
 
 require('./config')(app)
 require('./config/session.config')(app)
@@ -22,6 +20,8 @@ const corsOptions = {
     credentials: true
 }
 app.use(cors(corsOptions));
+
+
 
 const io = require('socket.io')(server, {cors: corsOptions})
 

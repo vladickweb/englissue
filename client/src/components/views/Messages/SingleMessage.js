@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import UserService from '../../services/UserService'
 import MessagesService from '../../services/MessagesService'
-import "bootswatch/dist/quartz/bootstrap.min.css";
+// import "bootswatch/dist/quartz/bootstrap.min.css";
 
 export default class SingleMessage extends Component {
 	constructor(props) {

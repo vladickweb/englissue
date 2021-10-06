@@ -33,6 +33,7 @@ function Videochat() {
 
 		socket.on('me', id => {
 			setMe(id)
+			console.log(userVideo.current.remote.state)
 		})
 
 		socket.on('callUser', data => {
@@ -57,18 +58,19 @@ function Videochat() {
 				signalData: data,
 				from: me,
 				name: name
-			})
+			}, console.log('peer signal'))
 		})
 
-		peer.on('stream', stream => {
+		peer.on('stream', (stream) => {
+			console.log('entroooo')
 			userVideo.current.srcObject = stream
-		})
+		}, console.log(stream))
 
 		socket.on('callAccepted', signal => {
 			console.log('accepted')
 			setCallAccepted(true)
 			peer.signal(signal)
-		})
+		}, console.log(userVideo.current.remote.state))
 
 		connectionRef.current = peer
 	}
@@ -108,7 +110,7 @@ function Videochat() {
 						{stream && <video playsInline muted ref={myVideo} autoPlay style={{ width: '300px' }} />}
 					</div>
 					<div className='video'>
-						{callAccepted && !callEnded ? (
+						{userVideo ? (
 							<video playsInline ref={userVideo} autoPlay style={{ width: '300px' }} />
 						) : null}
 					</div>
