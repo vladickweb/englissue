@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import MessagesService from '../../services/MessagesService'
+import { MdSend } from 'react-icons/md'
 
 class MessagesGroup extends Component {
 	constructor(props) {
@@ -36,18 +37,21 @@ class MessagesGroup extends Component {
 			ids.push(group.users[0]._id)
 			ids.push(group.users[1]._id)
 
-			console.log(ids)
 			const myId = this.props.loggedUser._id
 
-			const result = ids.filter(id => id !== myId)
-			console.log(result);
+			const result = ids.filter((id, idx) => id !== myId)
 			return (
-				<div>
-					<Link to={`/mis-mensajes/${result[0]}`}>
-						<h1>
-							{group.users[0].name} && {group.users[1].name}
-						</h1>
-					</Link>
+				<div className='row align-items-center justify-content-center mb-3'>
+					<div className='col-10'>
+						<h3 className='text-white'>
+							{group.users[0].name} con {group.users[1].name}
+						</h3>
+					</div>
+					<div className='col-2'>
+						<Link className='text-decoration-none' to={`/mis-mensajes/${result[0]}`}>
+							<MdSend size="lg"/>
+						</Link>
+					</div>
 				</div>
 			)
 		})
@@ -55,8 +59,14 @@ class MessagesGroup extends Component {
 
 	render() {
 		return this.state.groups ? (
-			<div>
-				<Row className='mt-4'>{this.displayGroups()}</Row>
+			<div className='container'>
+				<div className='row justify-content-center'>
+					<div className='col-6'>
+						<div className='p-5 transparent radius margin-top'>
+							<Row className='mt-4'>{this.displayGroups()}</Row>
+						</div>
+					</div>
+				</div>
 			</div>
 		) : (
 			<h3>Loading...</h3>

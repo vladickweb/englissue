@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import GoogleLogin from 'react-google-login'
 import AuthService from '../../services/AuthService'
+import { AwesomeButton, AwesomeButtonProgress, AwesomeButtonSocial } from 'react-awesome-button'
 
 export class GoogleAuth extends Component {
 	constructor(props) {
@@ -22,13 +23,19 @@ export class GoogleAuth extends Component {
 	render() {
 		return (
 			<div>
-				<GoogleLogin
-					clientId={process.env.REACT_APP_BASE_URL_GOOGLE_LOGIN}
-					buttonText='Login'
-					onSuccess={this.responseGoogle}
-					onFailure={this.responseGoogle}
-					cookiePolicy='single_host_origin'
-				/>
+				{/* <AwesomeButton type='primary' onClick={() => GoogleLogin()}> */}
+					<GoogleLogin
+						
+  					 
+						className=''
+						clientId={process.env.REACT_APP_BASE_URL_GOOGLE_LOGIN}
+						buttonText='Entra con Google'
+						style={{ display: 'none' }}
+						onSuccess={this.responseGoogle}
+						onFailure={this.responseGoogle}
+						cookiePolicy='single_host_origin'
+					/>
+				{/* </AwesomeButton> */}
 			</div>
 		)
 	}

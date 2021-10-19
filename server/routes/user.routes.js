@@ -40,7 +40,10 @@ router.put('/complete-profile', (req, res) => {
 	const direction = { city, country }
 
 	User.findByIdAndUpdate(_id, { name, rol, direction, image, iban, price: formatedPrice, description }, { new: true })
-		.then(user => res.status(200).json({ user, message: 'user updated' }))
+		.then(user => {
+			req.session.currentUser = user
+			res.status(200).json({ user, message: 'user updated' })
+		})
 		.catch(err => res.status(500).json({ code: 500, message: 'Error updating user', err: err }))
 })
 
@@ -84,22 +87,22 @@ router.get('/my-classes', (req, res) => {
 
 router.post('/my-groups', (req, res) => {
 	const { id } = req.body.data
-	const {_id} = req.session.currentUser
-
+	const { _id } = req.session.currentUser
 
 	MessagesGroup.find({ users: id }, { users: _id })
-		.populate({path: 'messages', populate: {path: 'name'}})
+		.populate({ path: 'messages', populate: { path: 'name' } })
 		.then(group => res.status(200).json({ group }))
 		.catch(err => res.status(500).json({ err }))
 })
 
 router.get('/people', (req, res) => {
-	const { city } = req.session.currentUser.direction
+	const city = req.session.currentUser.direction.city
 	const id = req.session.currentUser._id
-	
-	User.find({'direction.city': city, rol: 'student', _id: {$ne: id}})
-		.then(users => res.status(200).json({users}))
-		.catch(err => res.status(500).json({err}))
+	console.log(req.session.currentUser, 'hhhhhhhhhhhhhhhhhey')
+
+	User.find({ 'direction.city': city, rol: 'student', _id: { $ne: id } })
+		.then(users => res.status(200).json({ users }))
+		.catch(err => res.status(500).json({ err }))
 })
 
 router.get('/:id', (req, res) => {

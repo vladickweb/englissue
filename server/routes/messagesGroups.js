@@ -11,7 +11,8 @@ router.get('/', (req, res) => {
 })
 
 router.post('/create', (req, res) => {
-	const { id, _id } = req.body.data
+	const { id } = req.body.data
+	const {_id} = req.session.currentUser
 
 	MessagesGroup.create({ users: [ id, _id ] })
 		.then(group => res.status(200).json({ group }))
@@ -21,6 +22,7 @@ router.post('/create', (req, res) => {
 router.post('/message', (req, res) => {
 	
 	const { body, _id, idGroup } = req.body.data
+
 	Message.create({ body, name: _id  })
 		.then(message => {
 			MessagesGroup.findByIdAndUpdate(idGroup, { $push: { messages: message._id } }, { new: true })

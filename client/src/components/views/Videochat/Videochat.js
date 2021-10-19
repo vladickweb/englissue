@@ -8,10 +8,10 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 import Peer from 'simple-peer'
 import io from 'socket.io-client'
 import './Videochat.css'
+import { AwesomeButton, AwesomeButtonProgress, AwesomeButtonSocial } from 'react-awesome-button'
 
-	
+
 function Videochat() {
-	const socket = io.connect(process.env.REACT_APP_BASE_URL)
 	const [ me, setMe ] = useState('')
 	const [ stream, setStream ] = useState()
 	const [ receivingCall, setReceivingCall ] = useState(false)
@@ -24,6 +24,7 @@ function Videochat() {
 	const myVideo = useRef()
 	const userVideo = useRef()
 	const connectionRef = useRef()
+	const [ socket, setSocket ] = useState(io.connect(process.env.REACT_APP_BASE_URL))
 
 	useEffect(() => {
 		navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(stream => {
@@ -42,6 +43,10 @@ function Videochat() {
 			setName(data.name)
 			setCallerSignal(data.signal)
 		})
+
+		return () => {
+			socket.disconnect()
+		}
 	}, [])
 
 	const callUser = id => {
@@ -53,24 +58,36 @@ function Videochat() {
 
 		peer.on('signal', data => {
 			console.log('signal')
-			socket.emit('callUser', {
-				userToCall: id,
-				signalData: data,
-				from: me,
-				name: name
-			}, console.log('peer signal'))
+			socket.emit(
+				'callUser',
+				{
+					userToCall: id,
+					signalData: data,
+					from: me,
+					name: name
+				},
+				console.log('peer signal')
+			)
 		})
 
-		peer.on('stream', (stream) => {
-			console.log('entroooo')
-			userVideo.current.srcObject = stream
-		}, console.log(stream))
+		peer.on(
+			'stream',
+			stream => {
+				console.log('entroooo')
+				userVideo.current.srcObject = stream
+			},
+			console.log(stream)
+		)
 
-		socket.on('callAccepted', signal => {
-			console.log('accepted')
-			setCallAccepted(true)
-			peer.signal(signal)
-		}, console.log(userVideo.current.remote.state))
+		socket.on(
+			'callAccepted',
+			signal => {
+				console.log('accepted')
+				setCallAccepted(true)
+				peer.signal(signal)
+			},
+			console.log(userVideo.current.remote.state)
+		)
 
 		connectionRef.current = peer
 	}
@@ -98,27 +115,33 @@ function Videochat() {
 	const leaveCall = () => {
 		setCallEnded(true)
 		connectionRef.current.destroy()
-		console.log('fin')
 	}
 
 	return (
-		<div>
-			<h1 style={{ textAlign: 'center', color: '#fff' }}>Videochat</h1>
-			<div className='container'>
-				<div className='video-container'>
-					<div className='video'>
-						{stream && <video playsInline muted ref={myVideo} autoPlay style={{ width: '300px' }} />}
+		<div className='container margin-top'>
+			<div className='row justify-content-center text-center transparent radius p-5 align-items-center'>
+				<div className='col-10'>
+					<div className="row align-items-center mb-5">
+					<div className='col-6'>
+						<div className='video'>
+							{stream && <video playsInline muted ref={myVideo} autoPlay style={{ width: '300px' }} />}
+						</div>
 					</div>
-					<div className='video'>
-						{userVideo ? (
-							<video playsInline ref={userVideo} autoPlay style={{ width: '300px' }} />
-						) : null}
+					<div className='col-6'>
+						<div className='video'>
+							{userVideo ? (
+								<video playsInline ref={userVideo} autoPlay style={{ width: '300px' }} />
+							) : null}
+						</div>
+					</div>
 					</div>
 				</div>
-				<div className='myId'>
+				<div className='myId row justify-content-center'>
+
 					<TextField
+						autoComplete="off"
 						id='filled-basic'
-						label='Name'
+						label='Nombre'
 						variant='filled'
 						value={name}
 						onChange={e => setName(e.target.value)}
@@ -127,13 +150,14 @@ function Videochat() {
 
 					<CopyToClipboard text={me} style={{ marginBottom: '2rem' }}>
 						<Button variant='contained' color='primary' startIcon={<AssignmentIcon fontSize='large' />}>
-							Copy ID
+							Copiar ID
 						</Button>
 					</CopyToClipboard>
 
 					<TextField
+						autoComplete='off'
 						id='filled-basic'
-						label='ID to call'
+						label='ID destinatario'
 						variant='filled'
 						value={idToCall}
 						onChange={e => setIdToCall(e.target.value)}
@@ -141,22 +165,21 @@ function Videochat() {
 					<div className='call-button'>
 						{callAccepted && !callEnded ? (
 							<Button variant='contained' color='secondary' onClick={leaveCall}>
-								End Call
+								Terminar llamada
 							</Button>
 						) : (
 							<IconButton color='primary' aria-label='call' onClick={() => callUser(idToCall)}>
 								<PhoneIcon fontSize='large' />
 							</IconButton>
 						)}
-						
 					</div>
 				</div>
 				<div>
 					{receivingCall && !callAccepted ? (
 						<div className='caller'>
-							<h1>{name} is calling...</h1>
+							<h1>{name} te está llamando...</h1>
 							<Button variant='contained' color='primary' onClick={answerCall}>
-								Answer
+								Aceptar
 							</Button>
 						</div>
 					) : null}

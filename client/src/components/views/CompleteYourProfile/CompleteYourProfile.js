@@ -4,7 +4,9 @@ import UploadsService from '../../services/UploadService'
 import UserService from '../../services/UserService'
 import AutocompleteGoogle from '../AutocompleteGoogle/AutocompleteGoogle'
 import GeocodeGoogle from '../GeocodeGoogle/GeocodeGoogle'
-
+import { AwesomeButton, AwesomeButtonProgress, AwesomeButtonSocial } from 'react-awesome-button'
+import { Spinner } from 'react-bootstrap'
+import Swal from 'sweetalert2'
 export default class CompleteYourProfile extends Component {
 	state = {
 		name: '',
@@ -63,7 +65,11 @@ export default class CompleteYourProfile extends Component {
 	handleSubmitTeacher = e => {
 		e.preventDefault()
 		if (!this.state.country || !this.state.city) {
-			alert('No hemos podido detectar tu ubicación, por favor introduce tu ciudad.')
+			Swal.fire({
+				icon: 'error',
+				title: 'Error...',
+				text: 'No hemos podido detectar tu ubicación, por favor introduce tu ciudad.'
+			})
 			this.setState(
 				{
 					...this.state,
@@ -106,7 +112,11 @@ export default class CompleteYourProfile extends Component {
 	handleSubmitStudent = e => {
 		e.preventDefault()
 		if (!this.state.country || !this.state.city) {
-			alert('No hemos podido detectar tu ubicación, por favor introduce tu ciudad.')
+			Swal.fire({
+				icon: 'error',
+				title: 'Error...',
+				text: 'No hemos podido detectar tu ubicación, por favor introduce tu ciudad.'
+			})
 			this.setState(
 				{
 					...this.state,
@@ -143,19 +153,28 @@ export default class CompleteYourProfile extends Component {
 
 	render() {
 		return (
-			<div className='container'>
-				<div className='row justify-content-center'>
-					<button
-						type='button'
-						className='btn btn-primary'
-						data-toggle='modal'
-						data-target='#ProfesionalsModal'
-					>
-						Profesor
-					</button>
-					<button type='button' className='btn btn-primary' data-toggle='modal' data-target='#studentModal'>
-						Estudiante
-					</button>
+			<div className='container margin-top-2'>
+				<div className='row justify-content-center text-center '>
+					<div className='col-6'>
+						<button
+							type='button'
+							className='btn-lg btn-primary p-5 radius color-btn-2'
+							data-toggle='modal'
+							data-target='#ProfesionalsModal'
+						>
+							<h3>Profesor</h3>
+						</button>
+					</div>
+					<div className='col-6'>
+						<button
+							type='button'
+							className='btn-lg btn-primary p-5 radius color-btn'
+							data-toggle='modal'
+							data-target='#studentModal'
+						>
+							<h3>Estudiante</h3>
+						</button>
+					</div>
 
 					<GeocodeGoogle handleChangeDirection={this.handleChangeDirection} />
 
@@ -168,7 +187,7 @@ export default class CompleteYourProfile extends Component {
 						aria-hidden='true'
 					>
 						<div className='modal-dialog' role='document'>
-							<div className='modal-content'>
+							<div className='modal-content transparent radius text-white p-5 color-btn-2'>
 								<div className='modal-header'>
 									<h5 className='modal-title' id='exampleModalLabel'>
 										Datos Profesor
@@ -235,8 +254,14 @@ export default class CompleteYourProfile extends Component {
 
 										<div className='form-group'>
 											<label>
-											<p>Descripción</p>
-											<textarea name="description" className='form-control' id='description' rows='3' onChange={e => this.handleChange(e)} />
+												<p>Descripción</p>
+												<textarea
+													name='description'
+													className='form-control'
+													id='description'
+													rows='3'
+													onChange={e => this.handleChange(e)}
+												/>
 											</label>
 										</div>
 
@@ -244,10 +269,8 @@ export default class CompleteYourProfile extends Component {
 											<AutocompleteGoogle handleChangeDirection={this.handleChangeDirection} />
 										)}
 										<hr className='mb-4' />
-										{this.state.isLoading && <h1>LOADING</h1>}
-										<button type='submit' className='btn btn-primary btn-block'>
-											Enviar
-										</button>
+										{this.state.isLoading && <Spinner className='mt-4' animation='border' />}
+										<AwesomeButton type='secondary'>Enviar</AwesomeButton>
 									</form>
 								</div>
 							</div>
@@ -263,7 +286,7 @@ export default class CompleteYourProfile extends Component {
 						aria-hidden='true'
 					>
 						<div className='modal-dialog' role='document'>
-							<div className='modal-content'>
+							<div className='modal-content transparent radius text-white p-5 color-btn-2'>
 								<div className='modal-header'>
 									<h5 className='modal-title' id='ModalLabel'>
 										Datos alumno
@@ -273,7 +296,7 @@ export default class CompleteYourProfile extends Component {
 									<form onSubmit={e => this.handleSubmitStudent(e)}>
 										<div className='form-group'>
 											<label>
-												<p>Imagen de perfil</p>
+												<h4>Imagen de perfil</h4>
 												<input
 													onChange={e => this.handleFile(e)}
 													type='file'
@@ -286,11 +309,12 @@ export default class CompleteYourProfile extends Component {
 
 										<div className='form-group'>
 											<label>
-												<p>Nombre completo</p>
+												<h4>Nombre completo</h4>
 												<input
 													onChange={e => this.handleChange(e)}
 													type='text'
 													className='form-control'
+													autoComplete='off'
 													id='name'
 													name='name'
 													required
@@ -301,11 +325,9 @@ export default class CompleteYourProfile extends Component {
 											<AutocompleteGoogle handleChangeDirection={this.handleChangeDirection} />
 										)}
 
-										{this.state.isLoading && <h1>LOADING</h1>}
+										{this.state.isLoading && <Spinner className='mt-4' animation='border' />}
 										<hr className='mb-4' />
-										<button type='submit' className='btn btn-primary btn-block'>
-											Enviar
-										</button>
+										<AwesomeButton type='secondary'>Enviar</AwesomeButton>
 									</form>
 								</div>
 							</div>

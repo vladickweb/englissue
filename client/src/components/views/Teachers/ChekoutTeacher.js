@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import CheckoutService from '../../services/CheckoutService'
 import UserService from '../../services/UserService'
+import { AwesomeButton, AwesomeButtonProgress, AwesomeButtonSocial } from 'react-awesome-button'
+import Swal from 'sweetalert2'
 
 export default class ChekoutTeacher extends Component {
 	constructor(props) {
@@ -17,8 +19,9 @@ export default class ChekoutTeacher extends Component {
 		this.getCurrentBalance()
 	}
 
-	getCurrentBalance(){
-		this.userService.getSingleUser(this.props.loggedUser._id)
+	getCurrentBalance() {
+		this.userService
+			.getSingleUser(this.props.loggedUser._id)
 			.then(user => {
 				this.setState({
 					...this.state,
@@ -43,35 +46,44 @@ export default class ChekoutTeacher extends Component {
 	checkout() {
 		const currentUser = this.props.loggedUser._id
 
-
-		if (this.state.balance > this.state.teacher.price){
-		this.userService
-			.updateUser({ id: currentUser, amount: this.state.teacher.price, teacher: this.props.match.params.id })
-			.then(() => {
-                console.log(this.props)
-				this.props.fetchUser()
-				this.getCurrentBalance()
+		if (this.state.balance > this.state.teacher.price) {
+			this.userService
+				.updateUser({ id: currentUser, amount: this.state.teacher.price, teacher: this.props.match.params.id })
+				.then(() => {
+					console.log(this.props)
+					this.props.fetchUser()
+					this.getCurrentBalance()
+				})
+				.catch(err => console.log(err))
+		} else {
+			Swal.fire({
+				icon: 'error',
+				title: 'Error...',
+				text: 'No hemos podido detectar tu ubicación, por favor introduce tu ciudad.'
 			})
-			.catch(err => console.log(err))
-		} else{
-			alert('Saldo insuficiente')
-			console.log(this.props.history.push('/recargar-cuenta'))
+
+			this.props.history.push('/recargar-cuenta')
 		}
 	}
 
 	displayTeacher() {
 		return this.state.teacher ? (
-			<div className='row'>
-				<div className='col-6'>
-					<img src={this.state.teacher.image} width='100%' alt='' />
+			<div className='row align-items-center justify-content-between'>
+				<div className='col-6 '>
+					<img src={this.state.teacher.image} className='image-card' alt='' />
 				</div>
-				<div className='col-6'>
+				<div className='ml-4 col-6 text-white'>
 					<h1>{this.state.teacher.name}</h1>
 					<h3>{this.state.teacher.description}</h3>
 				</div>
-				<button onClick={() => this.checkout()} className='btn btn-dark btn-block'>
+				<AwesomeButton
+					className='mt-5'
+					type='secondary'
+					onClick={console.log('funcionooo')}
+					action={() => this.checkout()}
+				>
 					Reserva una hora con {this.state.teacher.name} por solo {this.state.teacher.price / 100}e.
-				</button>
+				</AwesomeButton>
 			</div>
 		) : (
 			<h1>cargando...</h1>
@@ -80,8 +92,10 @@ export default class ChekoutTeacher extends Component {
 
 	render() {
 		return (
-			<div className='row justify-content-center'>
-				<div className='col-md-7'>{this.displayTeacher()}</div>
+			<div className='container'>
+				<div className='row justify-content-center margin-top transparent radius p-5'>
+					<div className='col-md-7'>{this.displayTeacher()}</div>
+				</div>
 			</div>
 		)
 	}

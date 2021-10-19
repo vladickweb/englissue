@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import ChatMessageService from '../../services/ChatMessageService'
 import ChatroomService from '../../services/ChatroomsService'
+import { MdSend } from 'react-icons/md';
 
 export default class SingleChatroom extends Component {
 	constructor(props) {
@@ -13,7 +14,7 @@ export default class SingleChatroom extends Component {
 			users: null,
 			messages: [
 				{
-					email: '',
+					name: '',
 					body: ''
 				}
 			],
@@ -34,15 +35,14 @@ export default class SingleChatroom extends Component {
 
 	refreshMessages = () => {
 		const { id } = this.props.match.params
-		console.log(id, 'wooooooooooooooooooooooooooow')
 
 		this.chatroomService
 			.getOneChatroom(id)
 			.then(res => {
 				const arrTemporal = res.data.messages.map(message => {
-					const { email } = message.name
+					const { name } = message.name
 					const { body } = message
-					const msg = { email, body }
+					const msg = { name, body }
 					return msg
 				})
 
@@ -57,9 +57,9 @@ export default class SingleChatroom extends Component {
 	displayMessages = () => {
 		return this.state.messages.map((elm, idx) => {
 			return (
-				<div key={idx}>
-					<h1>{elm.email}</h1>
-					<h2>{elm.body}</h2>
+				<div className="m-5" key={idx}>
+					<h5>{elm.name}</h5>
+					<p>{elm.body}</p>
 				</div>
 			)
 		})
@@ -115,12 +115,20 @@ export default class SingleChatroom extends Component {
 
 	render() {
 		return this.state.messages ? (
-			<div>
-				{this.displayMessages()}
-				<form onSubmit={e => this.handleSubmit(e)}>
-					<input onChange={this.handleChange} type='text' name='body' />
-					<button type='submit'>enviar</button>
-				</form>
+			<div className='margin-top container'>
+				<div className='row justify-content-center'>
+					<div className='col-7 transparent chat radius text-white'>{this.displayMessages()}</div>
+					<div className="col-7">
+					<form className="form-group margin-negative" onSubmit={e => this.handleSubmit(e)}>
+						<div className="d-flex">
+						<input className="form-control text-white" autoComplete="off" onChange={this.handleChange} autoFocus="autofocus" type='text' name='body' />
+						<button className="btn btn-success" type='submit'>
+							<MdSend/>
+						</button>
+						</div>
+					</form>
+					</div>
+				</div>
 			</div>
 		) : (
 			<div>loading</div>

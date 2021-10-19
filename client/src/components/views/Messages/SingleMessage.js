@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import UserService from '../../services/UserService'
 import MessagesService from '../../services/MessagesService'
-// import "bootswatch/dist/quartz/bootstrap.min.css";
+import { MdSend } from 'react-icons/md';
+
 
 export default class SingleMessage extends Component {
 	constructor(props) {
@@ -62,10 +63,14 @@ export default class SingleMessage extends Component {
 		return this.state.messages.map(message => {
 			
 			return (
-				<div key={message._id} className='row'>
-					<h1>{message.name.name}</h1>
-					<h3>{message.body}</h3>
+
+				<div key={message._id} className="m-5">
+					<h5>{message.name.name}</h5>
+					<p>{message.body}</p>
 				</div>
+
+
+		
 			)
 		})
 	}
@@ -99,13 +104,26 @@ export default class SingleMessage extends Component {
 
 	render() {
 		return (
-			<div>
-				{this.state.messages ? this.displayMessages() : console.log('no hay mensajes')}
-				<form id="form" onSubmit={e => this.handleSubmit(e)}>
-					<input onChange={this.handleChange} type='text' name='body' />
-					<button type='submit'>enviar</button>
-				</form>
+			<div className="margin-top">
+			{this.state.messages &&
+			<div className='margin-chat container'>
+				<div className='row justify-content-center'>
+					<div className='col-7 transparent chat radius text-white'>{this.displayMessages()}</div>
+					<div className="col-7">
+					<form className="form-group margin-negative" onSubmit={e => this.handleSubmit(e)}>
+						<div className="d-flex">
+						<input className="form-control text-white" autoComplete="off" onChange={this.handleChange} autoFocus="autofocus" type='text' name='body' />
+						<button className="btn btn-success" type='submit'>
+							<MdSend/>
+						</button>
+						</div>
+					</form>
+					</div>
+				</div>
 			</div>
+			}
+			</div>
+			
 		)
 	}
 }

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { FormControl, InputGroup } from 'react-bootstrap'
 import TeacherServices from '../../services/TeachersService'
 import SingleTeacher from './SingleTeacher'
+import './Teachers.css'
 
 export default class Teachers extends Component {
 	constructor() {
@@ -36,7 +37,7 @@ export default class Teachers extends Component {
 		)
 		return filteredTeachers.length > 0 ? (
 			filteredTeachers.map(teacher => (
-				<div key={teacher._id} className='col-md-4'>
+				<div key={teacher._id} className='col-4'>
 					<SingleTeacher {...teacher} />
 				</div>
 			))
@@ -55,17 +56,20 @@ export default class Teachers extends Component {
 
 	render() {
 		return this.state.teachers ? (
-			<div>
-				<InputGroup className='mb-3 mt-4'>
-					<FormControl
+			<div className='margin-top'>
+				<div className='container mt-5 p-5 radius transparent'>
+					<input
+						autoComplete='off'
+						type='text'
+						className='form-control text-white'
+						placeholder='Buscar profesionales'
 						onChange={this.handleChange}
 						name='searchValue'
-						value={this.state.searchValue}
-						placeholder='Buscar por nombre...'
-						aria-label='buscar'
 					/>
-				</InputGroup>
-				<div className='row justify-content-center'>{this.displayTeachers()}</div>
+				</div>
+				<div className='container p-5'>
+					<div className='row justify-content-around'>{this.displayTeachers()}</div>
+				</div>
 			</div>
 		) : (
 			<h3>Loading...</h3>
